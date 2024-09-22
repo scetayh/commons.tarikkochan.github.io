@@ -1,0 +1,12 @@
+./
+./audio/
+./documents/
+./documents/gentoo-amd64-handbook/
+./documents/shared-work/
+./documents/shared-work/00001/
+./fonts/
+./fonts/Supplemental/
+./icons/
+./images/
+./images/backgrounds/
+./sources/
