@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>GKAutoRearm</key>
+			<false/>
+			<key>PayloadDisplayName</key>
+			<string>Security</string>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.security.B4ED8D14-3057-4D1A-83E1-6E736719D8BC</string>
+			<key>PayloadType</key>
+			<string>com.apple.security</string>
+			<key>PayloadUUID</key>
+			<string>B4ED8D14-3057-4D1A-83E1-6E736719D8BC</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>EnableAssessment</key>
+			<false/>
+			<key>PayloadDisplayName</key>
+			<string>System Policy: Control</string>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.systempolicy.control.CDBB207C-6CC3-49CB-BE72-6E8AA884A933</string>
+			<key>PayloadType</key>
+			<string>com.apple.systempolicy.control</string>
+			<key>PayloadUUID</key>
+			<string>1084332C-8ABD-494C-BBF5-0EA497063A27</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Allow Anywhere</string>
+	<key>PayloadIdentifier</key>
+	<string>Sushi-MacBook-Pro.2D778521-874E-4648-BD01-AFF15EAA2EFB</string>
+	<key>PayloadScope</key>
+	<string>System</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>F31CB31B-46BB-42B0-9941-085AF3D5EE3E</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+	<key>TargetDeviceType</key>
+	<integer>5</integer>
+</dict>
+</plist>
