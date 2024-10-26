@@ -1,6 +1,0 @@
-./
-./audio/
-./documents/
-./documents/gentoo-amd64-handbook/
-./pictures/
-./pictures/backgrounds/
