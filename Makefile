@@ -3,6 +3,7 @@
 all:
 	make clean
 	make commons
+	sleep 0.5
 	git add . && \
 		git commit -a && \
 			git push --set-upstream origin main
