@@ -4,7 +4,7 @@ all:
 	make commons
 	git add .
 	git commit -a
-	git push --set-upstream origin main
+	git push
 
 commons:
 	sudo indeux gen
