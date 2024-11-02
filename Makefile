@@ -1,10 +1,13 @@
-.PHONY: all
+.PHONY: all deploy
 
 all:
 	make commons
-	git add .
-	git commit -a
-	git push
-
+	make deploy
+	
 commons:
 	sudo indeux gen
+
+deploy:
+	git add .
+	git commit
+	git push
