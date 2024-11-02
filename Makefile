@@ -1,9 +1,5 @@
-.PHONY: all deploy
+.PHONY: deploy
 
-all:
-	make commons
-	make deploy
-	
 commons:
 	sudo indeux gen
 
