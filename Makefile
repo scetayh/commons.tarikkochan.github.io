@@ -6,4 +6,4 @@ deploy:
 	git push
 
 commons:
-	sudo indeux gen
+	sudo indeux -g
