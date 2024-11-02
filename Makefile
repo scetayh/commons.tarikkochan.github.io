@@ -1,9 +1,9 @@
 .PHONY: deploy
 
-commons:
-	sudo indeux gen
-
 deploy:
 	git add .
-	git commit
+	git commit -a
 	git push
+
+commons:
+	sudo indeux gen
