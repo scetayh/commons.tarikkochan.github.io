@@ -1,4 +1,5 @@
 
+_.indeux/
 audio/
 documents/
 documents/gentoo-amd64-handbook/
