@@ -5,6 +5,7 @@
 ./documents/shared-work/
 ./documents/shared-work/00001/
 ./documents/shared-work/00002/
+./documents/shared-work/00003/
 ./fonts/
 ./icons/
 ./images/
