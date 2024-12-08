@@ -117,7 +117,7 @@ alias zshrc-update='curl https://commons.tarikkochan.top/zshrc -o ~/.zshrc'
 onOSX && {
 	alias blog='blog-cd && make';
 	alias blog-cd='cd ~/Documents/blog';
-	alias blog-commons='blog-commons-cd && make commons';
+	alias blog-commons='blog-commons-cd && make commons && p && make';
 	alias blog-commons-cd='cd ~/Documents/repos/commons.tarikkochan.github.io';
 	alias blog-new='blog-cd && sudo hexo n "$1" && sudo chown scetayh: "source/_posts/$1.md" && sudo chmod +rw "source/_posts/$1.md"';
 	alias ds0='sudo pmset -a disablesleep 0';
@@ -192,10 +192,9 @@ function v() {
 	s;
 	onOSX && \
 		cp ~/.zshrc ~/Documents/repos/commons.tarikkochan.github.io/zshrc && \
-			cd ~/Documents/repos/commons.tarikkochan.github.io/ && \
-				git add . && \
-					git commit -a -m "update zshrc" && \
-						git push;
+		blog-commons && \
+		p && \
+		make;
 }
 
 onOSX && {
