@@ -112,6 +112,8 @@ alias srmkh='sudo rm -f ~/.ssh/known_hosts';
 alias sudo='sudo ';
 alias sudov='sudo $EDITOR';
 alias vpaths='sudo $EDITOR /etc/paths';
+alias yt-dlp='dy-dlp_macos'
+alias ya='yt-dlp -f 'bestaudio/best' --format 'bestaudio[ext!=webm]'
 alias zshrc-update='curl https://commons.tarikkochan.top/zshrc -o ~/.zshrc'
 
 onOSX && {
