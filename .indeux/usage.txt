@@ -1,0 +1,8 @@
+usage: indeux <option>
+
+options:
+  -i    init this directory for indeux
+  -u    uninit this directory for indeux
+  -g    generate index
+  -r    remove index
+  -h    print this message
