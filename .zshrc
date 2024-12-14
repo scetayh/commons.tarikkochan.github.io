@@ -113,7 +113,7 @@ alias sudo='sudo ';
 alias sudov='sudo $EDITOR';
 alias vpaths='sudo $EDITOR /etc/paths';
 alias yt-dlp='yt-dlp_macos';
-alias ya='yt-dlp -f 'bestaudio/best' --format 'bestaudio[ext!=webm]';
+alias ya='yt-dlp -f "bestaudio/best" --format "bestaudio[ext!=webm]"';
 alias zshrc-update='curl https://commons.tarikkochan.top/zshrc -o ~/.zshrc'
 
 onOSX && {
