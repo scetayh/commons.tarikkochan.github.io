@@ -1,5 +1,5 @@
 {
-    echo "# ${tarikkoHtml_titlePrefix}$(declare currentDirectory=$(sed -n ${k}p .indeux/directories.txt); echo ${currentDirectory:1})" 
+    echo "# ${tarikkoMd_titlePrefix}$(declare currentDirectory=$(sed -n ${k}p .indeux/directories.txt); echo ${currentDirectory:1})" 
     echo;
 } >> "$(eval sed -n '${k}p' .indeux/directories.txt)/index.md";
 

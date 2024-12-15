@@ -23,15 +23,19 @@
 
 #echo k=$k;
 
-if [ $(wc -l <"$(eval sed -n '${k}p' .indeux/directories.txt)/.indeux.items.txt") -gt 0 ]; then {
-    for ((l = 1; l <= $(wc -l <"$(eval sed -n '${k}p' .indeux/directories.txt)/.indeux.items.txt"); l++)); do {
+declare indeux_currentDirectory="$(eval sed -n '${k}p' .indeux/directories.txt)"
+declare indeux_currentDirectoryRecord="$indeux_currentDirectory/.indeux.items.txt"
+
+if [ $(wc -l <"$indeux_currentDirectoryRecord") -gt 0 ]; then {
+    for ((l = 1; l <= $(wc -l <"$indeux_currentDirectoryRecord"); l++)); do {
+        declare indeux_currentFile="$(sed -n ${l}p "$indeux_currentDirectoryRecord")"
         {
             echo -n "<a href=\"";
-            echo -n $(eval sed -n '${l}p' "$(eval sed -n '${k}p' .indeux/directories.txt)/.indeux.items.txt");
+            echo -n "$indeux_currentFile";
             echo -n "\">";
-            echo -n $(eval sed -n '${l}p' "$(eval sed -n '${k}p' .indeux/directories.txt)/.indeux.items.txt");
+            echo -n "$indeux_currentFile";
             echo "</a>";
-        } >> "$(eval sed -n '${k}p' .indeux/directories.txt)/index.html";
+        } >> "$indeux_currentDirectory/index.html";
     }
     done;
 }
