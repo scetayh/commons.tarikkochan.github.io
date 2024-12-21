@@ -52,6 +52,8 @@ onOSX && \
 		export PATH=$PATH:$HOME/.dotnet;
 		export PATH=$PATH:$HOME/.dotnet/tools;
 
+		export PATH=$PATH:/Users/scetayh/.cargo/bin;
+
 		export PATH=$PATH:$BLOG_DIRECTORY/node_modules/.bin;
 		export PATH=$PATH:$GOROOT/bin;
 		export PATH=$PATH:$GOPATH/bin;
