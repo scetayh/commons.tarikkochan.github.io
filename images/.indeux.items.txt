@@ -58,6 +58,7 @@ madoka-mbti.jpeg
 mahoushoujo-madoka-magica-ultimate-best.jpeg
 printlayoutsettings.png
 prompt.png
+resize-mac-partition-2.png
 subtitle-with-equal-signs.png
 subtitle-without-equal-signs.png
 tarikkochan.jpeg
