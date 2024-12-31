@@ -12,6 +12,4 @@
 ./documents/shared-work/00003/
 ./documents/shared-work/00002/
 ./documents/gentoo-amd64-handbook/
-./documents/Merry-Go-Round/
-./documents/Merry-Go-Round/Merry-Go-Round_first/
 ./fonts/
