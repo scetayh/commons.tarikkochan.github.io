@@ -1,3 +1,5 @@
 Merry-Go-Round@
+demo-tips.docx
+demo.pptx
 gentoo-amd64-handbook/
 shared-work/
