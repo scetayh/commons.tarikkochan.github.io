@@ -260,8 +260,10 @@ onOSX && {
 	[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh;
 	[ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)";
 	# Set PATH, MANPATH, etc., for Homebrew.
-	export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git";
-	export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git";
+	#export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git";
+	#export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git";
+	export HOMEBREW_BREW_GIT_REMOTE="git@github.com:Homebrew/brew";
+	export HOMEBREW_CORE_GIT_REMOTE="git@github.com:Homebrew/homebrew-core";
 	export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles";
 	export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api";
 }
