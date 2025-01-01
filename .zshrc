@@ -244,13 +244,13 @@ onOSX && \
 		}
 
 onGentoo && {
-	[ -f $(which autoload) ] && \
+	[ -f "$(which autoload)" ] && \
 		autoload -U compinit promptinit;
-	[ -f $(which compinit) ] && \
+	[ -f "$(which compinit)" ] && \
 		compinit;
-	[ -f $(which promptinit) ] && \
+	[ -f "$(which promptinit)" ] && \
 		promptinit;
-	[ -f $(which prompt) ] && \
+	[ -f "$(which prompt)" ] && \
 		prompt gentoo;
 }
 
