@@ -125,7 +125,7 @@ onOSX && {
 	alias blog-commons-cd='cd ~/Documents/repos/commons.tarikkochan.github.io';
 	alias blog-new='blog-cd && sudo hexo n "$1" && sudo chown scetayh: "source/_posts/$1.md" && sudo chmod +rw "source/_posts/$1.md"';
 	alias dick='dick-cd && make';
-	alias dick-cd='cd Documents/repos/dickzhouboom.tarikkochan.github.io && make';
+	alias dick-cd='cd ~/documents/repos/dickzhouboom.tarikkochan.github.io && make';
 	alias ds0='sudo pmset -a disablesleep 0';
 	alias ds1='sudo pmset -a disablesleep 1';
 	alias du='diskutil';
