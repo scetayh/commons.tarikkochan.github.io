@@ -247,7 +247,7 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh;
 chmod go-w '/opt/homebrew/share';
 chmod -R go-w '/opt/homebrew/share/zsh';
 
-rm -f ~/.zcompdump; compinit;
+#rm -f ~/.zcompdump; compinit;
 
 if type brew &>/dev/null; then {
 	export FPATH=$(brew --prefix)/share/zsh-completions:$FPATH;
