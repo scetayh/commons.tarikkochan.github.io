@@ -1,286 +1,276 @@
 # Created by newuser for 5.9
 
-# environment judgements
+# judgements
 
-function isRoot () {
-	[ "$(whoami)" = "root" ];
+function AsRoot () {
+	[ "$(/usr/bin/whoami)" = "root" ]
 }
 
-function onOSX () {
-	[ -d /System/ ];
+function OnOsx () {
+	[ -d /System ]
 }
 
-function onArch () {
-	[ -d /etc/pacman.d/ ];
+function OnGentoo () {
+	[ -d /etc/portage ]
 }
 
-function onGentoo () {
-	[ -d /etc/portage/ ];
+function InBash () {
+	/bin/ps -p $$ | /usr/bin/grep bash &> /dev/null
 }
 
-function usingBash () {
-	[[ "$0" =~ "bash" ]];
+function InZsh () {
+	/bin/ps -p $$ | /usr/bin/grep zsh &> /dev/null
 }
 
-function usingZsh () {
-	[[ "$0" =~ "zsh" ]];
+function StartWith () {
+	[[ "$1" == $2* ]]
 }
 
-# PATH
+function EndWith () {
+	[[ "$1" == *$2 ]]
+}
 
-onOSX && \
-	unset PATH && {
-		export PATH=$PATH:/usr/local/bin;
-		export PATH=$PATH:/usr/local/aarch64-apple-darwin24.0.0/bin;
-
-		export PATH=$PATH:/opt/homebrew/opt/coreutils/libexec/gnubin;
-		export PATH=$PATH:/opt/homebrew/opt/binutils/bin;
-		export PATH=$PATH:/opt/homebrew/opt/ed/libexec/gnubin;
-		export PATH=$PATH:/opt/homebrew/opt/ed/bin;
-		export PATH=$PATH:/opt/homebrew/opt/findutils/libexec/gnubin;
-		export PATH=$PATH:/opt/homebrew/opt/gawk/libexec/gnubin;
-		export PATH=$PATH:/opt/homebrew/opt/gnu-indent/libexec/gnubin;
-		export PATH=$PATH:/opt/homebrew/opt/gnu-sed/libexec/gnubin;
-		export PATH=$PATH:/opt/homebrew/opt/gnu-tar/libexec/gnubin;
-		export PATH=$PATH:/opt/homebrew/opt/gnu-which/libexec/gnubin;
-		export PATH=$PATH:/opt/homebrew/opt/grep/libexec/gnubin;
-		export PATH=$PATH:/opt/homebrew/opt/make/libexec/gnubin;
-		export PATH=$PATH:/opt/homebrew/opt/file-formula/bin;
-		export PATH=$PATH:/opt/homebrew/opt/unzip/bin;
-		export PATH=$PATH:/opt/homebrew/opt/llvm/bin;
-
-		export PATH=$PATH:$HOME/.dotnet;
-		export PATH=$PATH:$HOME/.dotnet/tools;
-
-		export PATH=$PATH:/Users/scetayh/.cargo/bin;
-
-		export PATH=$PATH:$BLOG_DIRECTORY/node_modules/.bin;
-		export PATH=$PATH:$GOROOT/bin;
-		export PATH=$PATH:$GOPATH/bin;
-		export PATH=$PATH:$MYSQL_HOME/bin;
-		export PATH=$PATH:$MAVEN_HOME/bin;
-		export PATH=$PATH:$CATALINA_HOME/bin;
-		export PATH=$PATH:$CALIBRE_HOMEexport PATH=$PATH:$JAVA_HOME/bin;
-		export PATH=$PATH:$HEXO_ALGOLIA_INDEXING_KEYexport PATH=$PATH:/Applications/waifu2x.app/Contents/MacOS;
-		export PATH=$PATH:/usr/local/lib/node_modules/;
-		export PATH=$PATH:$HOME/pdfbooklet;
-		export PATH=$PATH:/Users/scetayh/Documents/repos/soras/include;
-		export PATH=$PATH:/opt/indeux/;
-		export PATH=$PATH:$HOME/Documents/firework-rs-v0.3.1-x86_64-macos;
-		export PATH=$PATH:$HOME/Documents/ChmlFrp-0.51.2_240715_darwin_arm64;
-
-		export PATH=$PATH:/System/Cryptexes/App/usr/bin;
-		export PATH=$PATH:/usr/bin;
-		export PATH=$PATH:/bin;
-		export PATH=$PATH:/usr/sbin;
-		export PATH=$PATH:/sbin;
-	}	
-
-#isRoot && \
-#	export PATH=$(/opt/homebrew/bin/gsed ':a;N;s/\n/:/g;ba' /etc/paths):$PATH;
+function Contain () {
+	[[ "$1" == *$2* ]]
+}
 
 # variables
 
-onOSX && {
-	export LC_ALL=zh_CN.UTF-8;
-	export LANG=zh_CN.UTF-8;
+OnOsx && {
+	export LC_ALL=zh_CN.UTF-8
+	export LANG=zh_CN.UTF-8
 }
 
-export LDFLAGS="-L/opt/homebrew/opt/binutils/lib";
-export CPPFLAGS="-I/opt/homebrew/opt/binutils/include";
-export FORCE_UNSAFE_CONFIGURE=1;
-export DOTNET_ROOT=$HOME/.dotnet;
-export HEXO_ALGOLIA_INDEXING_KEY="43e558ddb34e527169506593c80c7b9d";
-export EDITOR=nvim;
+declare -rx BLOG_DIRECTORY=/Users/scetayh/Documents/blog
+declare -rx BLOG_COMMONS_DIRECTORY=/Users/scetayh/Documents/repos/commons.tarikkochan.github.io
+declare -x LDFLAGS="-L/opt/homebrew/opt/binutils/lib"
+declare -x CPPFLAGS="-I/opt/homebrew/opt/binutils/include"
+declare -x FORCE_UNSAFE_CONFIGURE=1
+declare -rx DOTNET_ROOT=$HOME/.dotnet
+declare -rx HEXO_ALGOLIA_INDEXING_KEY="43e558ddb34e527169506593c80c7b9d"
+declare -rx EDITOR=nvim
+
+# PATH
+
+function PathFormat () {
+	while Contain "$PATH" ::; do {
+		declare -x PATH=${PATH/::/:}
+	}
+	done
+
+	StartWith "$PATH" : && declare -x PATH=${PATH:1}
+	EndWith "$PATH" : && declare -x PATH=${PATH:0:-1}
+
+	return 0
+}
+
+function PathAppend () {
+	declare -x PATH="$PATH:$*"
+	PathFormat
+}
+
+function PathAppendDefault () {
+	for ((i=1; i<=$(/usr/bin/wc -l < /etc/paths); i++)); do {
+		PathAppend "$(/usr/bin/sed -n ${i}p /etc/paths)"
+	}
+	done
+	PathFormat
+}
+
+function PathAppendCustom () {
+	PathAppend /usr/local/bin
+	for i in /opt/homebrew/{opt/{{coreutils,ed,findutils,gawk,gnu-indent,gnu-sed,gnu-tar,gnu-which,grep,make}/libexec/gnubin,{binutils,ed,file-formula,unzip,llvm}/bin},{bin,sbin}}; do PathAppend "$i"; done
+	for i in $HOME/.dotnet{,/tools}; do PathAppend "$i"; done
+	PathAppend /Users/scetayh/.cargo/bin
+	PathAppend $BLOG_DIRECTORY/node_modules/.bin
+	for i in /opt/miniconda3/{bin,condabin}; do PathAppend "$i"; done
+	PathFormat
+}
+
+OnOsx && {
+	unset PATH
+
+	if AsRoot; then {
+		PathAppendDefault
+		PathAppendCustom
+	}
+	else {
+		PathAppendCustom
+		PathAppendDefault
+	}
+	fi
+
+	PathFormat
+}
 
 # prompt
 
-export PS1='\e[01;34m\]$(e=$?; (( e )) && echo "$e ")\e[01;31m\]\h\[\e[01;34m\] \w $\[\e[00m\] ';
+export PS1='\e[01;34m\]$(e=$?; (( e )) && echo "$e ")\e[01;31m\]\h\[\e[01;34m\] \w $\[\e[00m\] '
 export PROMPT="\
 (%F{9}exit %?%f)
 ┌─[%F{219}%n%f@%F{111}%M%f]  %F{215}%B%D%b %*%f    %F{0}╱/( ◕‿‿◕ )\\%f
 └─┬─┤ %l %x %F{10}%!%f %F{111}%U%~%u%f
   └─> %u%f%F{111}%B%#%b%f \
-";
+"
 
 # shortcuts as aliases
 
-alias c='cat -n';
-alias cmi='make distclean; ./configure && make clean && make -j && sudo make install';
-alias cmi-j1='make distclean; ./configure && make clean && make -j1 && sudo make install';
-alias l='ls -ahlF --color';
-alias ping-tarikko='ping -c 3 blog.tarikkochan.top';
-alias srmkh='sudo rm -f ~/.ssh/known_hosts';
-alias sudo='sudo ';
-alias sudov='sudo $EDITOR';
-alias vpaths='sudo $EDITOR /etc/paths';
-alias yt-dlp='yt-dlp_macos';
-alias ya='yt-dlp -f "bestaudio/best" --format "bestaudio[ext!=webm]"';
-alias zshrc-update='curl https://commons.tarikkochan.top/zshrc -o ~/.zshrc'
+alias c="cat -n"
+alias cmi="make distclean; ./configure && make clean && make -j && sudo make install"
+alias cmi-j1="make distclean; ./configure && make clean && make -j1 && sudo make install"
+alias l="ls -ahlF --color"
+alias ping-tarikko="ping -c 3 blog.tarikkochan.top"
+alias srmkh="sudo rm -f ~/.ssh/known_hosts"
+alias sudo="sudo "
+alias yt-dlp=yt-dlp_macos
+alias ya='yt-dlp -f "bestaudio/best" --format "bestaudio[ext!=webm]"'
+alias zshrc-update="curl https://commons.tarikkochan.top/zshrc -o ~/.zshrc"
 
-onOSX && {
-	alias blog='blog-cd && make';
-	alias blog-cd='cd ~/Documents/blog';
-	alias blog-commons='blog-commons-cd && make index';
-	alias blog-commons-cd='cd ~/Documents/repos/commons.tarikkochan.github.io';
-	alias blog-new='blog-cd && sudo hexo n "$1" && sudo chown scetayh: "source/_posts/$1.md" && sudo chmod +rw "source/_posts/$1.md"';
-	alias dick='dick-cd && make';
-	alias dick-cd='cd ~/documents/repos/dickzhouboom.tarikkochan.github.io && make';
-	alias ds0='sudo pmset -a disablesleep 0';
-	alias ds1='sudo pmset -a disablesleep 1';
-	alias du='diskutil';
-	alias p='export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890';
-	alias roll='brew update && brew upgrade';
+OnOsx && {
+	alias blog="blog-cd && make"
+	alias blog-cd="cd $BLOG_DIRECTORY"
+	alias blog-commons="blog-commons-cd && make index"
+	alias blog-commons-cd="cd $BLOG_COMMONS_DIRECTORY"
+	alias blog-new='blog-cd && sudo hexo n "$1" && sudo chown scetayh: "source/_posts/$1.md" && sudo chmod +rw "source/_posts/$1.md"'
+	alias dick="dick-cd && make"
+	alias dick-cd="cd ~/documents/repos/dickzhouboom.tarikkochan.github.io && make"
+	alias ds0="sudo pmset -a disablesleep 0"
+	alias ds1="sudo pmset -a disablesleep 1"
+	alias p="export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890"
+	alias roll="brew update && brew upgrade"
 }
 
-onArch && {
-	alias roll='sudo pacman -Syyu';
-	alias vml='sudo $EDITOR /etc/pacman.d/mirrorlist';
-	alias vpacman='sudo $EDITOR /etc/pacman.conf';
-}
-
-onGentoo && {
-	alias roll='sudo emerge -auvDN @world';
-	alias t+='sudo date -s "20300701"';
-	alias t-='sudo ntpdate -b -u 0.gentoo.pool.ntp.org && sudo hwclock --systohc';
-	alias vmake='sudo $EDITOR /etc/portage/make.conf';
+OnGentoo && {
+	alias t+="sudo date -s 20300701"
+	alias t-="sudo ntpdate -b -u 0.gentoo.pool.ntp.org && sudo hwclock --systohc"
+	alias vmake="sudo $EDITOR /etc/portage/make.conf"
 }
 
 # shortcuts as functions
 
-function alx() {
-	curl https://alx.sh | sh;
-}
-
-function alx-ub() {
-	curl -sL https://ubuntuasahi.org/install | sh;
-}
-
 function loading() {
 	while true; do {
         for i in '|' '/' '-' '\'; do {
-                printf \\b$i;
-                sleep 0.05;
+                printf \\b$i
+                sleep 0.05
         }
-        done;
+        done
 	}
     done
 }
 
 function n() {
 	[ -f "$(which lolcat)" ] && {
-		uname -a;
-		neofetch;
+		uname -a
+		neofetch
 	} | \
 		lolcat && \
-			return 0;
-	uname -a;
-	neofetch;
+			return 0
+	uname -a
+	neofetch
 }
 
 function s() {
-		usingBash && source ~/.bashrc;
-		usingZsh && source ~/.zshrc;
-		return 0;
+		InBash && source ~/.bashrc
+		InZsh && source ~/.zshrc
+		return 0
 }
 
 function t() {
 	if [ -z "$1" ]; then {
-		tree -alF --dirsfirst;
+		tree -alF --dirsfirst
 	}
 	else {
-		tree -alFL "$1" --dirsfirst;
+		tree -alFL "$1" --dirsfirst
 	}
-	fi;
+	fi
 }
 
 function v() {
-	$EDITOR ~/.zshrc;
-	s;
-	onOSX && \
+	$EDITOR ~/.zshrc
+	s
+	OnOsx && \
 		blog-commons-cd && \
-		make zshrc;
-	return 0;
+		make zshrc
+	return 0
 }
 
-onOSX && {
+OnOsx && {
 	function o() {
 		[ -z "$1" ] && \
 			open . || \
-				open "$1";
+				open "$1"
 	}
 
 	function sleepafter () {
 		[ ! -d /System ] && \
 			echo "macOS supported only" && \
-				return 1;
+			return 1
 
 		[ "$(whoami)" != "root" ] && \
 			echo "permission denied" && \
-				return 1;
+			return 1
 
 		[ "$1" -lt 0 ] && \
 			echo "integer expected" && \
-				return 1;
+			return 1
 
-		ds1;
-		echo -n $1;
-		sleep 1;
+		ds1
+		echo -n $1
+		sleep 1
 		for ((i = 2; i <= $1; i++)); do {
-			echo -n " $(($1 + 1 - i))";
-			sleep 1;
+			echo -n " $(($1 + 1 - i))"
+			sleep 1
 		}
-		done;
-		echo;
-		ds0;
-		sudo shutdown -s +0;
+		done
+		echo
+		ds0
+		sudo shutdown -s +0
 	}
 }
 
 # plugins
 
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh;
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters;
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh;
+export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-chmod go-w '/opt/homebrew/share';
-chmod -R go-w '/opt/homebrew/share/zsh';
+chmod go-w '/opt/homebrew/share'
+chmod -R go-w '/opt/homebrew/share/zsh'
 
-#rm -f ~/.zcompdump; compinit;
+#rm -f ~/.zcompdump; compinit
 
 if type brew &>/dev/null; then {
-	export FPATH=$(brew --prefix)/share/zsh-completions:$FPATH;
+	export FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
-	autoload -Uz compinit;
-	compinit;
+	autoload -Uz compinit
+	compinit
 }
-fi;
+fi
 
 [ -f "$(which autoload)" ] && \
-	autoload -U compinit promptinit;
+	autoload -U compinit promptinit
 [ -f "$(which compinit)" ] && \
-	compinit;
+	compinit
 [ -f "$(which promptinit)" ] && \
-	promptinit;
+	promptinit
 [ -f "$(which prompt)" ] && \
-	prompt gentoo;
+	prompt gentoo
 
 # homebrew
 
-onOSX && {
-	[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh;
-	[ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)";
+OnOsx && {
+	#[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
+	#[ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)
 	# Set PATH, MANPATH, etc., for Homebrew.
-	#export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git";
-	#export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git";
-	export HOMEBREW_BREW_GIT_REMOTE="git@github.com:Homebrew/brew";
-	export HOMEBREW_CORE_GIT_REMOTE="git@github.com:Homebrew/homebrew-core";
-	export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles";
-	export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api";
+	#export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
+	#export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
+	export HOMEBREW_BREW_GIT_REMOTE="git@github.com:Homebrew/brew"
+	export HOMEBREW_CORE_GIT_REMOTE="git@github.com:Homebrew/homebrew-core"
+	export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
+	export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
 }
-
-:;
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -296,6 +286,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-# empty command
-:
