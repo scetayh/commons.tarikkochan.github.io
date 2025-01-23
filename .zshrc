@@ -239,22 +239,32 @@ onOSX && {
 
 # plugins
 
-onOSX && \
-	usingZsh && {
-			source /usr/local/share/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh;
-			source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh;
-		}
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh;
 
-onGentoo && {
-	[ -f "$(which autoload)" ] && \
-		autoload -U compinit promptinit;
-	[ -f "$(which compinit)" ] && \
-		compinit;
-	[ -f "$(which promptinit)" ] && \
-		promptinit;
-	[ -f "$(which prompt)" ] && \
-		prompt gentoo;
+export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters;
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh;
+
+chmod go-w '/opt/homebrew/share';
+chmod -R go-w '/opt/homebrew/share/zsh';
+
+rm -f ~/.zcompdump; compinit;
+
+if type brew &>/dev/null; then {
+	export FPATH=$(brew --prefix)/share/zsh-completions:$FPATH;
+
+	autoload -Uz compinit;
+	compinit;
 }
+fi;
+
+[ -f "$(which autoload)" ] && \
+	autoload -U compinit promptinit;
+[ -f "$(which compinit)" ] && \
+	compinit;
+[ -f "$(which promptinit)" ] && \
+	promptinit;
+[ -f "$(which prompt)" ] && \
+	prompt gentoo;
 
 # homebrew
 
