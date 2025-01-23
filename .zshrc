@@ -41,14 +41,14 @@ OnOsx && {
 	export LANG=zh_CN.UTF-8
 }
 
-declare -rx BLOG_DIRECTORY=/Users/scetayh/Documents/blog
-declare -rx BLOG_COMMONS_DIRECTORY=/Users/scetayh/Documents/repos/commons.tarikkochan.github.io
+declare -x BLOG_DIRECTORY=/Users/scetayh/Documents/blog
+declare -x BLOG_COMMONS_DIRECTORY=/Users/scetayh/Documents/repos/commons.tarikkochan.github.io
 declare -x LDFLAGS="-L/opt/homebrew/opt/binutils/lib"
 declare -x CPPFLAGS="-I/opt/homebrew/opt/binutils/include"
 declare -x FORCE_UNSAFE_CONFIGURE=1
-declare -rx DOTNET_ROOT=$HOME/.dotnet
-declare -rx HEXO_ALGOLIA_INDEXING_KEY="43e558ddb34e527169506593c80c7b9d"
-declare -rx EDITOR=nvim
+declare -x DOTNET_ROOT=$HOME/.dotnet
+declare -x HEXO_ALGOLIA_INDEXING_KEY="43e558ddb34e527169506593c80c7b9d"
+declare -x EDITOR=nvim
 
 # PATH
 
