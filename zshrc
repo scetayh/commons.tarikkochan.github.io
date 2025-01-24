@@ -10,12 +10,12 @@ function StartWith () { [[ "$1" == $2* ]]; }
 function EndWith () { [[ "$1" == *$2 ]]; }
 function Contain () { [[ "$1" == *$2* ]]; }
 function PathFormat () {
-	while Contain "$PATH" ::; do declare -x PATH=${PATH/::/:}; done
-	StartWith "$PATH" : && declare -x PATH=${PATH:1}
-	EndWith "$PATH" : && declare -x PATH=${PATH:0:-1}
+	while Contain "$PATH" ::; do export PATH=${PATH/::/:}; done
+	StartWith "$PATH" : && export PATH=${PATH:1}
+	EndWith "$PATH" : && export PATH=${PATH:0:-1}
 	return 0
 }
-function PathAppend () { declare -x PATH="$PATH:$*"; PathFormat; }
+function PathAppend () { export PATH="$PATH:$*"; PathFormat; }
 function PathAppendDefault () {
 	for ((i=1; i<=$(/usr/bin/wc -l < /etc/paths); i++)); do {
 		PathAppend "$(/usr/bin/sed -n ${i}p /etc/paths)"
@@ -35,42 +35,52 @@ function PathAppendCustom () {
 
 # variable
 OnOsx && {
-	declare -x DOTNET_ROOT=$HOME/.dotnet
-	declare -x BLOG_DIRECTORY=/Users/scetayh/Documents/blog
-	declare -x BLOG_COMMONS_DIRECTORY=/Users/scetayh/Documents/repos/commons.tarikkochan.github.io
-	declare -x HEXO_ALGOLIA_INDEXING_KEY="43e558ddb34e527169506593c80c7b9d"
+	export DOTNET_ROOT=$HOME/.dotnet
+	export BLOG_DIRECTORY=/Users/scetayh/Documents/blog
+	export BLOG_COMMONS_DIRECTORY=/Users/scetayh/Documents/repos/commons.tarikkochan.github.io
+	export HEXO_ALGOLIA_INDEXING_KEY="43e558ddb34e527169506593c80c7b9d"
 	#[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 	#[ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)
 	# Set PATH, MANPATH, etc., for Homebrew.
-	#declare -x HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
-	declare -x HOMEBREW_BREW_GIT_REMOTE="git@github.com:Homebrew/brew"
-	#declare -x HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
-	declare -x HOMEBREW_CORE_GIT_REMOTE="git@github.com:Homebrew/homebrew-core"
-	declare -x HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
-	declare -x HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
+	#export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
+	export HOMEBREW_BREW_GIT_REMOTE="git@github.com:Homebrew/brew"
+	#export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
+	export HOMEBREW_CORE_GIT_REMOTE="git@github.com:Homebrew/homebrew-core"
+	export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
+	export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
 }
-declare -x LDFLAGS="-L/opt/homebrew/opt/binutils/lib"
-declare -x CPPFLAGS="-I/opt/homebrew/opt/binutils/include"
-declare -x FORCE_UNSAFE_CONFIGURE=1
-declare -x LC_ALL=zh_CN.UTF-8
-declare -x LANG=zh_CN.UTF-8
-declare -x PS1='\e[01;34m\]$(e=$?; (( e )) && echo "$e ")\e[01;31m\]\h\[\e[01;34m\] \w $\[\e[00m\] '
-declare -x PROMPT=$'(%F{9}exit %?%f)\n┌─[%F{219}%n%f@%F{111}%M%f]  %F{215}%B%D%b %*%f    %F{0}╱/( ◕‿‿◕ )\\%f\n└─┬─┤ %l %x %F{10}%!%f %F{111}%U%~%u%f\n  └─> %u%f%F{111}%B%#%b%f '
-declare -x EDITOR=nvim
+export LDFLAGS="-L/opt/homebrew/opt/binutils/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/binutils/include"
+export FORCE_UNSAFE_CONFIGURE=1
+export LC_ALL=zh_CN.UTF-8
+export LANG=zh_CN.UTF-8
+export PS1='\e[01;34m\]$(e=$?; (( e )) && echo "$e ")\e[01;31m\]\h\[\e[01;34m\] \w $\[\e[00m\] '
+export PROMPT=$'(%F{9}exit %?%f)\n┌─[%F{219}%n%f@%F{111}%M%f]  %F{215}%B%D%b %*%f    %F{0}╱/( ◕‿‿◕ )\\%f\n└─┬─┤ %l %x %F{10}%!%f %F{111}%U%~%u%f\n  └─> %u%f%F{111}%B%#%b%f '
+export EDITOR=nvim
 
 # PATH
-OnOsx && { unset PATH; if AsRoot; then PathAppendDefault; PathAppendCustom; else PathAppendCustom; PathAppendDefault; fi; PathFormat; }
+OnOsx && { 
+	unset PATH
+	if AsRoot; then 
+		PathAppendDefault
+		PathAppendCustom
+	else
+		PathAppendCustom
+		PathAppendDefault
+	fi
+	PathFormat
+}
 
 # plugin
 OnOsx && InZsh && {
 	source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-	declare -x ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters
+	export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters
 	source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 	chmod go-w '/opt/homebrew/share'
 	chmod -R go-w '/opt/homebrew/share/zsh'
 	#rm -f ~/.zcompdump; compinit
 	if type brew &>/dev/null; then {
-		declare -x FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+		export FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
 		autoload -Uz compinit
 		compinit
@@ -89,7 +99,7 @@ OnOsx && ! AsRoot && {
 		if [ -f "/opt/miniconda3/etc/profile.d/conda.sh" ]; then
 			. "/opt/miniconda3/etc/profile.d/conda.sh"
 		else
-			declare -x PATH="/opt/miniconda3/bin:$PATH"
+			export PATH="/opt/miniconda3/bin:$PATH"
 		fi
 	fi
 	unset __conda_setup
@@ -115,7 +125,7 @@ OnOsx && {
 	alias blog-commons-cd="cd $BLOG_COMMONS_DIRECTORY"
 	alias ds0="sudo pmset -a disablesleep 0"
 	alias ds1="sudo pmset -a disablesleep 1"
-	alias p="declare -x https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890"
+	alias p="export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890"
 }
 OnGentoo && {
 	alias t+="sudo date -s 20300701"
