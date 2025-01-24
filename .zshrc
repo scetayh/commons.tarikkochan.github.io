@@ -125,7 +125,7 @@ OnGentoo && {
 function loading() { while true; do for i in '|' '/' '-' '\'; do printf \\b$i; sleep 0.05; done; done; }
 function n() { [ -f "$(which lolcat)" ] && { uname -a; neofetch; } | lolcat && return 0; uname -a; neofetch; }
 function s() { InBash && source ~/.bashrc; InZsh && source ~/.zshrc; return 0; }
-function v() { $EDITOR ~/.zshrc; s; blog-commons-cd &> /dev/null; make zshrc &> /dev/null; return 0; }
+function v() { $EDITOR ~/.zshrc; s; blog-commons-cd; make zshrc; return 0; }
 OnOsx && {
 	function o() { [ -z "$1" ] && open . || open "$1"; }
 	function sleepafter () {
