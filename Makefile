@@ -1,7 +1,7 @@
 .PHONY: zshrc index
 
 zshrc:
-	cp ~/.zshrc .
+	cp ~/.zshrc zshrc
 	sudo indeux -g
 	git add .
 	git commit -a -m "update zshrc"
