@@ -37,7 +37,7 @@ function PathAppendCustom () {
 OnOsx && {
 	export DOTNET_ROOT=$HOME/.dotnet
 	export BLOG_DIRECTORY=/Users/scetayh/Documents/blog
-	export BLOG_COMMONS_DIRECTORY=/Users/scetayh/Documents/repos/commons.tarikkochan.github.io
+	export BLOG_COMMONS_DIRECTORY=/Users/scetayh/Documents/repo/commons.tarikkochan.github.io
 	export HEXO_ALGOLIA_INDEXING_KEY="43e558ddb34e527169506593c80c7b9d"
 	#[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 	#[ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)
